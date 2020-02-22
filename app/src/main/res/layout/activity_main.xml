@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:fitsSystemWindows="true"
+        android:id="@+id/content"
+        android:background="@color/colorBackground"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".SharingContentActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:src="@drawable/share_icon"
+                android:tint="@color/colorTextLight"
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
+
+        <TextView
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/colorTextDark"
+                android:text="Делитесь фотографиями"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/colorTextLight"
+                android:textSize="18sp"
+                android:text="Поделитесь фотографией на стене, и добавьте к ней описание."
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <FrameLayout
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/button"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textSize="16sp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="9dp"
+                    android:layout_marginTop="9dp"
+                    android:textColor="@color/colorTextWhite"
+                    android:text="Выбрать фото"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:paddingBottom="64dp"
+        android:background="@drawable/pop_up_view_background"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="61dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <EditText
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColorHint="@color/colorGreyAccent"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:hint="Добавить комментарий"
+                    android:background="@drawable/edit_text_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.CardView
+                    android:id="@+id/image_container"
+                    android:layout_marginTop="15dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+            android:background="@drawable/pop_up_view_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:textColor="@color/colorTextDark"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="Поделиться на стене"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <FrameLayout
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/close_button"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/close_button_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_margin="2.5dp"
+                    android:tint="@color/colorGreyAccent"
+                    android:src="@drawable/ic_close_black_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

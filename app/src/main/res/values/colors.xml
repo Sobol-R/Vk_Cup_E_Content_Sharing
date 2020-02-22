@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorBackground">#FFF</color>
+    <color name="colorBackgroundDark">#F2F3F5</color>
+    <color name="colorMainAccent">#4680C2</color>
+    <color name="colorGreyAccent">#9BABBF</color>
+    <color name="colorTextDark">#000</color>
+    <color name="colorTextLight">#86919D</color>
+    <color name="colorTextWhite">#FFF</color>
+    <color name="colorTransparentBackground">#9000</color>
+    <color name="colorEditTextBg">#F2F3F5</color>
+    <color name="colorShareStatus">#666666</color>
+    <color name="colorWhite">#FFF</color>
+
+</resources>

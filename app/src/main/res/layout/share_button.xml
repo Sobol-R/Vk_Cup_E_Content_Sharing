@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:alpha="1"
+        android:id="@+id/button_container"
+        android:background="@color/colorBackground"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/share_button"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/colorTextWhite"
+                android:text="Отправить"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+</FrameLayout>
