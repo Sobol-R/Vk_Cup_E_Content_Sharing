@@ -1,4 +1,4 @@
-package com.sobol.vkcup_e_contentsharing
+package com.sobol.vkcup_e_contentsharing.ui
 
 import android.content.Context
 import android.os.Handler
@@ -7,6 +7,8 @@ import android.support.design.widget.CoordinatorLayout
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import com.sobol.vkcup_e_contentsharing.AndroidUtils
+import com.sobol.vkcup_e_contentsharing.R
 
 class ShareButtonView(
     context: Context
@@ -16,12 +18,15 @@ class ShareButtonView(
 
     fun init() {
         LayoutInflater.from(context).inflate(R.layout.share_button, this, true)
+
+        activity = context as SharingContentActivity
+
         val params = CoordinatorLayout.LayoutParams(
             CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.WRAP_CONTENT
         )
         params.gravity = Gravity.BOTTOM
         layoutParams = params
-        activity = context as SharingContentActivity
+
         alpha = 0f
     }
 

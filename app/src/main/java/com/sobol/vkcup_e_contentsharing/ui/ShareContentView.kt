@@ -1,36 +1,52 @@
-package com.sobol.vkcup_e_contentsharing
+package com.sobol.vkcup_e_contentsharing.ui
 
 import android.animation.Animator
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.Toast
+import com.sobol.vkcup_e_contentsharing.AndroidUtils
+import com.sobol.vkcup_e_contentsharing.R
+import com.sobol.vkcup_e_contentsharing.api.VKWallPostCommand
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKApiCallback
+import com.vk.api.sdk.exceptions.VKApiExecutionException
 import kotlinx.android.synthetic.main.share_content_view.view.*
+
+private const val APPEAR_DURATION = 250L
 
 class ShareContentView(
     context: Context
 ) : FrameLayout(context) {
 
-    val APPEAR_DURATION = 250L
     private lateinit var container: PopUpContainerView
 
+    private var uri: Uri? = null
 
-    fun init(container: PopUpContainerView, bitmap: Bitmap) {
+    private lateinit var sharingActivity: SharingContentActivity
+
+    init {
+        sharingActivity = context as SharingContentActivity
+    }
+
+    fun init(container: PopUpContainerView, bitmap: Bitmap, uri: Uri?) {
+        this.uri = uri
         this.container = container
+
         LayoutInflater.from(context).inflate(R.layout.share_content_view, this, true)
         val params = CoordinatorLayout.LayoutParams(
             CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.WRAP_CONTENT
         )
         params.behavior = BottomSheetBehavior<FrameLayout>()
         layoutParams = params
+
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -43,13 +59,14 @@ class ShareContentView(
                 })
             }
         })
+
         close_button.setOnClickListener {
-            val sharingActivity = context as SharingContentActivity
             sharingActivity.onBackPressed()
         }
         image_container.setOnClickListener {
-            val activity = context as SharingContentActivity
-            EditImageFragment(bitmap).show(activity.supportFragmentManager, "EditImageFragment")
+            EditImageFragment
+                .newInstance(bitmap)
+                .show(sharingActivity.supportFragmentManager, "EditImageFragment")
         }
     }
 
@@ -67,6 +84,29 @@ class ShareContentView(
                 .scaleY(1f)
                 .duration = 330
         }, 350)
+    }
+
+    fun sharePost() {
+        val activity = context as SharingContentActivity
+
+        activity.openWaitingFragment()
+
+        val photos = ArrayList<Uri>()
+        uri?.let {
+            photos.add(it)
+        }
+        VK.execute(VKWallPostCommand(share_text.text.toString(), photos), object: VKApiCallback<Int> {
+            override fun success(result: Int) {
+                Toast.makeText(context, context.resources.getString(R.string.photo_posted), Toast.LENGTH_SHORT).show()
+                println("WALL OK")
+                activity.closeWaitingFragment()
+            }
+
+            override fun fail(error: VKApiExecutionException) {
+                Toast.makeText(context, context.resources.getString(R.string.photo_failed), Toast.LENGTH_SHORT).show()
+                println("WALL ERROR")
+            }
+        })
     }
 
     fun close() {

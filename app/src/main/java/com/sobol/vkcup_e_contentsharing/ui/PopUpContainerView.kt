@@ -1,36 +1,44 @@
-package com.sobol.vkcup_e_contentsharing
+package com.sobol.vkcup_e_contentsharing.ui
 
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import com.sobol.vkcup_e_contentsharing.R
 import kotlinx.android.synthetic.main.popup_container.view.*
+
+private const val APPEAR_DURATION = 150L
 
 class PopUpContainerView(
     context: Context
 ) : FrameLayout(context) {
 
-    val APPEAR_DURATION = 150L
     private lateinit var sharingActivity: SharingContentActivity
     private lateinit var behavior: BottomSheetBehavior<ShareContentView>
     private val shareView = ShareContentView(context)
     private val shareButton = ShareButtonView(context)
 
-    fun init(bitmap: Bitmap) {
+    fun init(bitmap: Bitmap, uri: Uri?) {
         LayoutInflater.from(context).inflate(R.layout.popup_container, this, true)
+
         sharingActivity = context as SharingContentActivity
-        shareView.init(this, bitmap)
+
+        shareView.init(this, bitmap, uri)
         shareButton.init()
         initBottomSheetBehavior()
+
         content.setOnClickListener {
             sharingActivity.onBackPressed()
         }
+        shareButton.setOnClickListener {
+            shareView.sharePost()
+        }
+
         content.addView(shareView)
         content.addView(shareButton)
     }

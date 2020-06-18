@@ -1,4 +1,4 @@
-package com.sobol.vkcup_e_contentsharing
+package com.sobol.vkcup_e_contentsharing.ui
 
 import android.Manifest
 import android.animation.ValueAnimator
@@ -15,6 +15,7 @@ import android.content.pm.PackageManager
 import android.widget.Toast
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.support.v4.app.ActivityCompat
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
@@ -24,13 +25,19 @@ import java.io.FileNotFoundException
 import android.net.Uri
 import android.provider.Settings
 import android.support.design.widget.Snackbar
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ImageView
+import com.sobol.vkcup_e_contentsharing.*
+import com.vk.api.sdk.VKTokenExpiredHandler
+
+private const val PICKED_IMAGE_RESULT = 111
+private const val STORAGE_PERMISSION_REQUEST = 112
 
 class SharingContentActivity : AppCompatActivity() {
 
     private var popUpContainer: PopUpContainerView? = null
-
-    private val PICKED_IMAGE_RESULT = 111
-    private val STORAGE_PERMISSION_REQUEST = 112
+    private lateinit var waitingFragment: WaitingFragment
 
     private var isOpenShareView = false
 
@@ -38,10 +45,26 @@ class SharingContentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setUpStatusBar()
         setContentView(R.layout.activity_main)
+
         button.setOnClickListener {
             showPermission()
         }
-        //VK.login(this, arrayListOf(VKScope.WALL, VKScope.PHOTOS))
+
+        setVKTokeTracker()
+        login()
+    }
+
+    private fun setVKTokeTracker() {
+        VK.addTokenExpiredHandler(object : VKTokenExpiredHandler{
+            override fun onTokenExpired() {
+                login()
+            }
+        })
+    }
+
+    private fun login() {
+        if (!VK.isLoggedIn())
+            VK.login(this, arrayListOf(VKScope.WALL, VKScope.PHOTOS))
     }
 
     private fun getGalleryImage() {
@@ -59,8 +82,16 @@ class SharingContentActivity : AppCompatActivity() {
                     val path = ImageFilePath.getPath(this, imageUri!!)
                     val imageStream = contentResolver.openInputStream(imageUri)
                     val selectedImageBitmap = BitmapFactory.decodeStream(imageStream)
-                    val processedBitmap = AndroidUtils.processImageBitmapRotation(path!!, selectedImageBitmap)
-                    openShareView(processedBitmap)
+                    val processedBitmap = AndroidUtils.processImageBitmapRotation(
+                        path!!,
+                        selectedImageBitmap
+                    )
+                    openShareView(processedBitmap, Uri.parse(
+                        PathUtils.getPath(
+                            this,
+                            data.data!!
+                        )
+                    ))
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show()
@@ -121,10 +152,20 @@ class SharingContentActivity : AppCompatActivity() {
             STORAGE_PERMISSION_REQUEST)
     }
 
-    private fun openShareView(bitmap: Bitmap) {
+    fun openWaitingFragment() {
+        if (!::waitingFragment.isInitialized)
+            waitingFragment = WaitingFragment()
+        waitingFragment.show(supportFragmentManager, "WaitingFragment")
+    }
+
+    fun closeWaitingFragment() {
+        waitingFragment.dismiss()
+    }
+
+    private fun openShareView(bitmap: Bitmap, uri: Uri?) {
         isOpenShareView = true
         popUpContainer = PopUpContainerView(this)
-        popUpContainer!!.init(bitmap)
+        popUpContainer!!.init(bitmap, uri)
         val layoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
         )
@@ -136,6 +177,7 @@ class SharingContentActivity : AppCompatActivity() {
     fun closeShareView() {
         content.removeView(popUpContainer)
         popUpContainer = null
+        isOpenShareView = false
     }
 
     fun setUpStatusBar() {
@@ -163,7 +205,6 @@ class SharingContentActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (isOpenShareView) {
-            isOpenShareView = false
             popUpContainer!!.closeShareView()
         } else
             super.onBackPressed()

@@ -11,6 +11,7 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.InputStream
 import android.R.attr.rotation
 import android.os.Environment
+import android.view.View
 
 object AndroidUtils {
 
@@ -46,6 +47,12 @@ object AndroidUtils {
             source, 0, 0, source.width, source.height,
             matrix, true
         )
+    }
+
+    fun getScreenWidth(activity: Activity): Int {
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels
     }
 
     fun getScreenHeight(activity: Activity): Int {

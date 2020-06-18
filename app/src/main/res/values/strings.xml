@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">VkCup_E_ContentSharing</string>
     <integer name="com_vk_sdk_AppId">7326206</integer>
+
     <string name="message_no_storage_permission_snackbar">Чтобы выбрать фото, разрешите приложению доступ к памяти устройства</string>
     <string name="settings">Настройки</string>
+    <string name="photo_posted">Фото опубликовано на стену</string>
+    <string name="photo_failed">Не удалось опубликовать фото</string>
+
 </resources>

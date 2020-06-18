@@ -22,6 +22,8 @@
                 android:layout_height="wrap_content">
 
             <EditText
+                    android:textColor="#000"
+                    android:id="@+id/share_text"
                     android:clickable="true"
                     android:focusable="true"
                     android:textColorHint="@color/colorGreyAccent"
@@ -35,6 +37,7 @@
                     android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.CardView
+                    android:foreground="?attr/selectableItemBackground"
                     android:id="@+id/image_container"
                     android:layout_marginTop="15dp"
                     app:cardCornerRadius="15dp"
